@@ -37,9 +37,9 @@ public class CompanyRESTOperation {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Path("/add")
-	public String add(@QueryParam("name") String name, @QueryParam("address") String address, @QueryParam("city") String city, @QueryParam("country") String country, @QueryParam("email") String email, @QueryParam("phone") String phone) {
+	public String add(@QueryParam("name") String name, @QueryParam("address") String address, @QueryParam("city") String city, @QueryParam("country") String country, @QueryParam("email") String email, @QueryParam("phone") String phone, @QueryParam("employees") String employees) {
 
-		if (!validate(name, address, city, country)) {
+		if (!validate(name, address, city, country, employees)) {
 			return "-1";
 		}
 
@@ -53,6 +53,11 @@ public class CompanyRESTOperation {
 		company.setCountry(country);
 		company.setEmail(email);
 		company.setPhone(phone);
+		//convert comma separated employees to list
+		String[] data = employees.split(",");
+		for(String employee : data) {
+			company.addEmplyee(employee);
+		}
 
 		companies.add(company);
 		return String.valueOf(id);
